@@ -16,9 +16,13 @@ context = ""
 for file in Path("knowledge").glob("*.txt"):
     context += file.read_text()
     context += "\n\n"
+promot = f"Based on the following university information, solve the student's problem.\n\nUniversity Information:\n{context}\n\nStudent Problem:\n{question}"
 
 ## Make a call to Qwen with student's question and the context from the knowledge base.
-
+response = chat(
+    model="qwen3:8b",
+    messages=[{"role": "user", "content": promot}],
+)
 
 
 ## Just for fun, print the total length of the context
@@ -28,3 +32,4 @@ print(
 )
 
 ## Print the response from Qwen
+print(response.message.content)
